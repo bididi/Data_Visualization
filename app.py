@@ -24,7 +24,7 @@ app.layout = html.Div(
                 "data": [
                     {
                         "x": df["Year"],
-                        "y": df["Incident"],
+                        "y": df["Victim Count"],
                         "type": "lines",
                     },
                 ],
