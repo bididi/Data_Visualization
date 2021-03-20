@@ -7,7 +7,8 @@ from dash.dependencies import Input, Output
 
 # Load data
 df = pd.read_csv('database.csv')
-df
+df.dropna(inplace=True)
+print(pd.isnull(df).sum())
 #df.index = pd.to_datetime(df['Date'])
 
 app = dash.Dash(__name__)
