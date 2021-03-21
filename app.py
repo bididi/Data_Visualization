@@ -6,6 +6,7 @@ import numpy as np
 from dash.dependencies import Input, Output
 import plotly.graph_objects as go
 import matplotlib.pyplot as plt
+import plotly.express as px
 
 # Load data
 df = pd.read_csv('database.csv')
@@ -129,13 +130,12 @@ app.layout = html.Div(
 )
 def update_charts(year):
     if year == "all":
-        fig = go.Figure()
-        fig.add_trace(go.Histogram(histfunc="count", x=df['Victim_Sex']))
+        fig = px.pie(df,values="Year",names='Victim_Sex')
     else:
         filtered_df = df[df.Year == year]
-        fig = go.Figure()
-        fig.add_trace(go.Histogram(histfunc="count", x=filtered_df['Victim_Sex']))
+        fig = px.pie(filtered_df,values="Year",names='Victim_Sex')
     return fig
+
 
 
 #def crime_solved(year):
