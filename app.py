@@ -128,7 +128,7 @@ app.layout = html.Div(
     Input("year-filter", "value"),
 
 )
-def update_charts(year):
+def pie_chart(year):
     if year == "all":
         fig = px.pie(df,values="Year",names='Victim_Sex')
     else:
@@ -136,7 +136,15 @@ def update_charts(year):
         fig = px.pie(filtered_df,values="Year",names='Victim_Sex')
     return fig
 
-
+def update_charts2(year):
+    if year == "all":
+        fig = go.Figure()
+        fig.add_trace(go.Histogram(histfunc="count", x=df['Victim_Sex']))
+    else:
+        filtered_df = df[df.Year == year]
+        fig = go.Figure()
+        fig.add_trace(go.Histogram(histfunc="count", x=filtered_df['Victim_Sex']))
+    return fig
 
 #def crime_solved(year):
     #if year == 'all':
