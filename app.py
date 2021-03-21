@@ -87,3 +87,10 @@ def update_charts(year):
 
 if __name__ == "__main__":
     app.run_server(debug=True)
+#import matplotlib.pyplot as plt
+#unsolved = df[df["Crime Solved"] != "Yes"]
+#solved = df[df["Crime Solved"] == "Yes"]
+#unsolved['Year'].value_counts().sort_index(ascending=True).plot(kind='line',label='Unsolved')
+#solved['Year'].value_counts().sort_index(ascending=True).plot(kind='line',label='Solved')
+#plt.legend()
+#plt.title('Solved/Unsolved crimes')
