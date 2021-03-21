@@ -43,6 +43,27 @@ app.layout = html.Div(
             children=[
                 html.Div(
                     children=[
+                        html.P(children="kujyhgtrfedzsxwlkiujyhgtrfedzs ikjuhy-gtfredjuhygtrfd")
+                    ]
+                ),
+                html.Div(
+                    children=[
+                        html.P(children="kujyhgtrfedzsxwlkiujyhgtrfedzs ikjuhy-gtfredjuhygtrfd")
+                    ]
+                ),
+                html.Div(
+                    children=[
+                        html.P(children="kujyhgtrfedzsxwlkiujyhgtrfedzs ikjuhy-gtfredjuhygtrfd")
+                    ]
+                )
+
+            ],
+            className="global_container"
+        ),
+        html.Div(
+            children=[
+                html.Div(
+                    children=[
                         html.Div(children="Year", className="menu-title"),
                         dcc.Dropdown(
                             id="year-filter",
@@ -63,24 +84,29 @@ app.layout = html.Div(
                             className="card",
                         )
 
-                ],
-            className="wrapper",
-        ),
-            ],
-            className="menu",
-        ),
-        html.Div(
-            children=[
+                    ],
+                ),
                 html.Div(
-                    children=dcc.Graph(
-                        id="fig2", config={"displayModeBar": False},
-                    ),
-                    className="card",
-                )
+                    children=[
+                        html.Div(
+                            children=dcc.Graph(
+                                id="fig2", config={"displayModeBar": False},
+                            ),
+                            className="card",
+                        )
+
+                    ],
+                ),
 
             ],
-            className="wrapper",
+            className="Year_container"
         ),
+        """html.Div(
+            children=mapp
+            classname="map_container"
+        ),
+        
+        """
     ]
 )
 
@@ -88,8 +114,6 @@ app.layout = html.Div(
 @app.callback(
     Output("fig", "figure"),
     Input("year-filter", "value"),
-    Output("plt", "figure"),
-    Input("year-filter", "value")
 
 )
 def update_charts(year):
@@ -103,16 +127,16 @@ def update_charts(year):
     return fig
 
 
-def crime_solved(year):
-    if year == 'all':
-        unsolved = df[df["Crime Solved"] != "Yes"]
-        solved = df[df["Crime Solved"] == "Yes"]
-        fig2 = go.Figure()
-        unsolved['Year'].value_counts().sort_index(ascending=True).plot(kind='line', label='Unsolved')
-        solved['Year'].value_counts().sort_index(ascending=True).plot(kind='line', label='Solved')
-        plt.legend()
-        plt.title('Solved/Unsolved crimes')
-    return plt
+#def crime_solved(year):
+    #if year == 'all':
+        #unsolved = df[df["Crime Solved"] != "Yes"]
+        #solved = df[df["Crime Solved"] == "Yes"]
+        #fig2 = go.Figure()
+        #unsolved['Year'].value_counts().sort_index(ascending=True).plot(kind='line', label='Unsolved')
+        #solved['Year'].value_counts().sort_index(ascending=True).plot(kind='line', label='Solved')
+        #plt.legend()
+        #plt.title('Solved/Unsolved crimes')
+    #return plt
 
 if __name__ == "__main__":
     app.run_server(debug=True)
