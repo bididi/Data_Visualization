@@ -5,24 +5,26 @@ import pandas as pd
 import numpy as np
 from dash.dependencies import Input, Output
 import plotly.graph_objects as go
+import matplotlib.pyplot as plt
 
 # Load data
 df = pd.read_csv('database.csv')
 df.dropna(inplace=True)
-#print(pd.isnull(df).sum())
-#df.index = pd.to_datetime(df['Date'])
+# print(pd.isnull(df).sum())
+# df.index = pd.to_datetime(df['Date'])
 
 
 external_stylesheets = [
     {
         "href": "https://fonts.googleapis.com/css2?"
-        "family=Lato:wght@400;700&display=swap",
+                "family=Lato:wght@400;700&display=swap",
         "rel": "stylesheet",
     },
 ]
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
-app.title = "Avocado Analytics: Understand Your Avocados!"
-
+app.title = "Crime analize"
+OptionsListe = [{"label": year, "value": year} for year in np.sort(df.Year.unique())]
+OptionsListe.insert(0, {"label": "All", "value": 'all'}),
 app.layout = html.Div(
     children=[
         html.Div(
@@ -44,16 +46,26 @@ app.layout = html.Div(
                         html.Div(children="Year", className="menu-title"),
                         dcc.Dropdown(
                             id="year-filter",
-                            options=[
-                                {"label": year, "value": year}
-                                for year in np.sort(df.Year.unique())
-                            ],
-                            value=2010,
+                            options=OptionsListe,
+                            value='all',
                             clearable=False,
+                            placeholder="Select a year",
                             className="dropdown",
                         ),
                     ]
-                )
+                ),
+                html.Div(
+                    children=[
+                        html.Div(
+                            children=dcc.Graph(
+                                id="fig", config={"displayModeBar": False},
+                            ),
+                            className="card",
+                        )
+
+                ],
+            className="wrapper",
+        ),
             ],
             className="menu",
         ),
@@ -61,7 +73,7 @@ app.layout = html.Div(
             children=[
                 html.Div(
                     children=dcc.Graph(
-                        id="fig", config={"displayModeBar": False},
+                        id="fig2", config={"displayModeBar": False},
                     ),
                     className="card",
                 )
@@ -75,22 +87,32 @@ app.layout = html.Div(
 
 @app.callback(
     Output("fig", "figure"),
+    Input("year-filter", "value"),
+    Output("plt", "figure"),
     Input("year-filter", "value")
 
 )
 def update_charts(year):
-
-    filtered_df = df[df.Year == year]
-    fig = go.Figure()
-    fig.add_trace(go.Histogram(histfunc="count", x=filtered_df['Victim_Sex']))
+    if year == "all":
+        fig = go.Figure()
+        fig.add_trace(go.Histogram(histfunc="count", x=df['Victim_Sex']))
+    else:
+        filtered_df = df[df.Year == year]
+        fig = go.Figure()
+        fig.add_trace(go.Histogram(histfunc="count", x=filtered_df['Victim_Sex']))
     return fig
+
+
+def crime_solved(year):
+    if year == 'all':
+        unsolved = df[df["Crime Solved"] != "Yes"]
+        solved = df[df["Crime Solved"] == "Yes"]
+        fig2 = go.Figure()
+        unsolved['Year'].value_counts().sort_index(ascending=True).plot(kind='line', label='Unsolved')
+        solved['Year'].value_counts().sort_index(ascending=True).plot(kind='line', label='Solved')
+        plt.legend()
+        plt.title('Solved/Unsolved crimes')
+    return plt
 
 if __name__ == "__main__":
     app.run_server(debug=True)
-#import matplotlib.pyplot as plt
-#unsolved = df[df["Crime Solved"] != "Yes"]
-#solved = df[df["Crime Solved"] == "Yes"]
-#unsolved['Year'].value_counts().sort_index(ascending=True).plot(kind='line',label='Unsolved')
-#solved['Year'].value_counts().sort_index(ascending=True).plot(kind='line',label='Solved')
-#plt.legend()
-#plt.title('Solved/Unsolved crimes')
