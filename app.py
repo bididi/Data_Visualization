@@ -12,8 +12,16 @@ df = pd.read_csv('database.csv')
 df.dropna(inplace=True)
 # print(pd.isnull(df).sum())
 # df.index = pd.to_datetime(df['Date'])
-
-
+nbr_crime = df['Record_ID'].count()
+print(nbr_crime)
+unsolved = len(df[df["Crime_Solved"] != "Yes"])
+solved = len(df[df["Crime_Solved"] == "Yes"])
+Mean = (solved/unsolved)*100
+print(Mean)
+Mean = round(Mean,2)
+Weapon = df["Weapon"].value_counts().idxmax()
+print(Weapon)
+Mean =str(Mean)
 external_stylesheets = [
     {
         "href": "https://fonts.googleapis.com/css2?"
@@ -43,18 +51,21 @@ app.layout = html.Div(
             children=[
                 html.Div(
                     children=[
-                        html.P(children="kujyhgtrfedzsxwlkiujyhgtrfedzs ikjuhy-gtfredjuhygtrfd", className="data1")
-                    ]
+                        html.H3(children="Number crimes", className="header-title"),
+                        html.P(children=nbr_crime)
+                    ], className="data1"
                 ),
                 html.Div(
                     children=[
-                        html.P(children="kujyhgtrfedzsxwlkiujyhgtrfedzs ikjuhy-gtfredjuhygtrfd", className="data2")
-                    ]
+                        html.H3(children="Most popular weapon", className="header-title"),
+                        html.P(children=Weapon)
+                    ], className="data2"
                 ),
                 html.Div(
                     children=[
-                        html.P(children="kujyhgtrfedzsxwlkiujyhgtrfedzs ikjuhy-gtfredjuhygtrfd", className="data3")
-                    ]
+                        html.H3(children="Solved crimes", className="header-title"),
+                        html.P(children=Mean + " % ")
+                    ], className="data3"
                 )
 
             ],
@@ -81,7 +92,7 @@ app.layout = html.Div(
                             children=dcc.Graph(
                                 id="fig", config={"displayModeBar": False},
                             ),
-                            className="card",
+                            className="card1",
                         )
 
                     ],
@@ -92,7 +103,7 @@ app.layout = html.Div(
                             children=dcc.Graph(
                                 id="fig2", config={"displayModeBar": False},
                             ),
-                            className="card",
+                            className="card2",
                         )
 
                     ],
@@ -129,8 +140,7 @@ def update_charts(year):
 
 #def crime_solved(year):
     #if year == 'all':
-        #unsolved = df[df["Crime Solved"] != "Yes"]
-        #solved = df[df["Crime Solved"] == "Yes"]
+
         #fig2 = go.Figure()
         #unsolved['Year'].value_counts().sort_index(ascending=True).plot(kind='line', label='Unsolved')
         #solved['Year'].value_counts().sort_index(ascending=True).plot(kind='line', label='Solved')
