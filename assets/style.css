@@ -3,3 +3,17 @@
     color: whitesmoke;
     text-align: center;
 }
+.global_container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around
+}
+.data1{
+    flex-grow: 1;
+}
+.data2{
+    flex-grow: 1;
+}
+.data3{
+    flex-grow: 1;
+}

@@ -43,17 +43,17 @@ app.layout = html.Div(
             children=[
                 html.Div(
                     children=[
-                        html.P(children="kujyhgtrfedzsxwlkiujyhgtrfedzs ikjuhy-gtfredjuhygtrfd")
+                        html.P(children="kujyhgtrfedzsxwlkiujyhgtrfedzs ikjuhy-gtfredjuhygtrfd", className="data1")
                     ]
                 ),
                 html.Div(
                     children=[
-                        html.P(children="kujyhgtrfedzsxwlkiujyhgtrfedzs ikjuhy-gtfredjuhygtrfd")
+                        html.P(children="kujyhgtrfedzsxwlkiujyhgtrfedzs ikjuhy-gtfredjuhygtrfd", className="data2")
                     ]
                 ),
                 html.Div(
                     children=[
-                        html.P(children="kujyhgtrfedzsxwlkiujyhgtrfedzs ikjuhy-gtfredjuhygtrfd")
+                        html.P(children="kujyhgtrfedzsxwlkiujyhgtrfedzs ikjuhy-gtfredjuhygtrfd", className="data3")
                     ]
                 )
 
