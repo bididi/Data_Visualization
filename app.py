@@ -11,77 +11,75 @@ import plotly.express as px
 # Load data
 
 df = pd.read_csv('database.csv')
-#df=df[:100000]
+# df=df[:100000]
 df.dropna(inplace=True)
 # print(pd.isnull(df).sum())
 # df.index = pd.to_datetime(df['Date'])
 nbr_crime = df['Record_ID'].count()
-#print(nbr_crime)
+# print(nbr_crime)
 unsolved = len(df[df["Crime_Solved"] != "Yes"])
 solved = len(df[df["Crime_Solved"] == "Yes"])
-Total = unsolved+solved
-Mean = (solved/Total)*100
+Total = unsolved + solved
+Mean = (solved / Total) * 100
 print(Mean)
-Mean = round(Mean,2)
+Mean = round(Mean, 2)
 Weapon = df["Weapon"].value_counts().idxmax()
-#print(Weapon)
-Mean =str(Mean)
+# print(Weapon)
+Mean = str(Mean)
 
 df[["State"]] = df[["State"]].replace({'Alabama': 'AL',
-    'Alaska': 'AK',
-    'Arizona': 'AZ',
-    'Arkansas': 'AR',
-    'California': 'CA',
-    'Colorado': 'CO',
-    'Connecticut': 'CT',
-    'Delaware': 'DE',
-    'District of Columbia': 'DC',
-    'Florida': 'FL',
-    'Georgia': 'GA',
-    'Hawaii': 'HI',
-    'Idaho': 'ID',
-    'Illinois': 'IL',
-    'Indiana': 'IN',
-    'Iowa': 'IA',
-    'Kansas': 'KS',
-    'Kentucky': 'KY',
-    'Louisiana': 'LA',
-    'Maine': 'ME',
-    'Maryland': 'MD',
-    'Massachusetts': 'MA',
-    'Michigan': 'MI',
-    'Minnesota': 'MN',
-    'Mississippi': 'MS',
-    'Missouri': 'MO',
-    'Montana': 'MT',
-    'Nebraska': 'NE',
-    'Nevada': 'NV',
-    'New Hampshire': 'NH',
-    'New Jersey': 'NJ',
-    'New Mexico': 'NM',
-    'New York': 'NY',
-    'North Carolina': 'NC',
-    'North Dakota': 'ND',
-    'Ohio': 'OH',
-    'Oklahoma': 'OK',
-    'Oregon': 'OR',
-    'Pennsylvania': 'PA',
-    'Rhodes Island': 'RI',
-    'South Carolina': 'SC',
-    'South Dakota': 'SD',
-    'Tennessee': 'TN',
-    'Texas': 'TX',
-    'Utah': 'UT',
-    'Vermont': 'VT',
-    'Virginia': 'VA',
-    'Washington': 'WA',
-    'West Virginia': 'WV',
-    'Wisconsin': 'WI',
-    'Wyoming': 'WY'})
+                                       'Alaska': 'AK',
+                                       'Arizona': 'AZ',
+                                       'Arkansas': 'AR',
+                                       'California': 'CA',
+                                       'Colorado': 'CO',
+                                       'Connecticut': 'CT',
+                                       'Delaware': 'DE',
+                                       'District of Columbia': 'DC',
+                                       'Florida': 'FL',
+                                       'Georgia': 'GA',
+                                       'Hawaii': 'HI',
+                                       'Idaho': 'ID',
+                                       'Illinois': 'IL',
+                                       'Indiana': 'IN',
+                                       'Iowa': 'IA',
+                                       'Kansas': 'KS',
+                                       'Kentucky': 'KY',
+                                       'Louisiana': 'LA',
+                                       'Maine': 'ME',
+                                       'Maryland': 'MD',
+                                       'Massachusetts': 'MA',
+                                       'Michigan': 'MI',
+                                       'Minnesota': 'MN',
+                                       'Mississippi': 'MS',
+                                       'Missouri': 'MO',
+                                       'Montana': 'MT',
+                                       'Nebraska': 'NE',
+                                       'Nevada': 'NV',
+                                       'New Hampshire': 'NH',
+                                       'New Jersey': 'NJ',
+                                       'New Mexico': 'NM',
+                                       'New York': 'NY',
+                                       'North Carolina': 'NC',
+                                       'North Dakota': 'ND',
+                                       'Ohio': 'OH',
+                                       'Oklahoma': 'OK',
+                                       'Oregon': 'OR',
+                                       'Pennsylvania': 'PA',
+                                       'Rhodes Island': 'RI',
+                                       'South Carolina': 'SC',
+                                       'South Dakota': 'SD',
+                                       'Tennessee': 'TN',
+                                       'Texas': 'TX',
+                                       'Utah': 'UT',
+                                       'Vermont': 'VT',
+                                       'Virginia': 'VA',
+                                       'Washington': 'WA',
+                                       'West Virginia': 'WV',
+                                       'Wisconsin': 'WI',
+                                       'Wyoming': 'WY'})
 
-new_df =df.assign(Crime=1)
-new_df = new_df.groupby(by=["State"]).sum()
-new_df.reset_index(level=0, inplace=True)
+new_df = df.assign(Crime=1)
 
 external_stylesheets = [
     {
@@ -146,27 +144,27 @@ app.layout = html.Div(
 
                         ),
                         html.P(
-                           children='most popular weapon'
+                            children='most popular weapon'
 
                         ),
                         html.P(
-                           id="weapon"
+                            id="weapon"
 
                         ),
                         html.P(
-                           children='Number of crimes'
+                            children='Number of crimes'
 
                         ),
                         html.P(
-                           id="crime"
+                            id="crime"
 
                         ),
                         html.P(
-                           children='Pourcentage of solved crimes'
+                            children='Pourcentage of solved crimes'
 
                         ),
                         html.P(
-                           id="Solved"
+                            id="Solved"
 
                         ),
                     ],
@@ -212,7 +210,6 @@ app.layout = html.Div(
             ],
             className="map_container"
         ),
-        
 
     ],
     className="container"
@@ -231,11 +228,14 @@ app.layout = html.Div(
 )
 def pie_chart(year):
     if year == "all":
+        new_df1 = new_df.groupby(by=["State"]).sum()
+        new_df1.reset_index(level=0, inplace=True)
+
         fig = px.pie(df, values="Year", names='Victim_Sex')
         fig2 = go.Figure()
         fig2.add_trace(go.Histogram(histfunc="count", x=df['Month']))
         weapon = df["Weapon"].value_counts().idxmax()
-        crime =df['Record_ID'].count()
+        crime = df['Record_ID'].count()
         Unsolved = len(df[df["Crime_Solved"] != "Yes"])
         solve = len(df[df["Crime_Solved"] == "Yes"])
         total = Unsolved + solve
@@ -243,18 +243,15 @@ def pie_chart(year):
         mean = round(mean, 2)
         Solved = str(mean)
 
-        map = px.choropleth(
-            data_frame=new_df,
-            locationmode='USA-states',
-            locations=new_df["State"],
-            scope="usa",
-            color='Crime',
-            hover_data=['State', 'Crime'],
-            labels={'Pct of Colonies Impacted': '% of Bee Colonies'},
-    )
+
 
     else:
         filtered_df = df[df.Year == year]
+        filtered_df2 = new_df[new_df.Year == year]
+        new_df2 = filtered_df2.groupby(by=["State"]).sum()
+        new_df2.reset_index(level=0, inplace=True)
+
+
         weapon = filtered_df["Weapon"].value_counts().idxmax()
         crime = filtered_df['Record_ID'].count()
         fig = px.pie(filtered_df, values="Year", names='Victim_Sex')
@@ -266,18 +263,30 @@ def pie_chart(year):
         mean = (solve / total) * 100
         mean = round(mean, 2)
         Solved = str(mean)
-        Solved = Solved
 
-        map = px.choropleth(
-            data_frame=new_df,
-            locationmode='USA-states',
-            locations=new_df["State"],
-            scope="usa",
-            color='Nombre de crimes',
-            hover_data=['State', 'Incident'],
-            labels={'Nb crimes': '% of Bee Colonies'},
-        )
-    return fig, fig2, weapon, crime, Solved, map
+
+    return fig, fig2, weapon, crime, Solved
+
 
 if __name__ == "__main__":
     app.run_server(debug=True)
+
+    """map = px.choropleth(
+              data_frame=new_df1,
+              locationmode='USA-states',
+              locations=new_df1["State"],
+              scope="usa",
+              color='Crime',
+              hover_data=['State', 'Crime'],
+              labels={'Pct of Colonies Impacted': '% of Bee Colonies'},
+          )"""
+
+    """ map = px.choropleth(
+              data_frame=new_df2,
+              locationmode='USA-states',
+              locations=new_df2["State"],
+              scope="usa",
+              color='Nombre de crimes',
+              hover_data=['State', 'Crime'],
+              labels={'Nb crimes': '% of Bee Colonies'},
+          )"""
