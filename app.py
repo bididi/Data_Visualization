@@ -17,7 +17,8 @@ nbr_crime = df['Record_ID'].count()
 print(nbr_crime)
 unsolved = len(df[df["Crime_Solved"] != "Yes"])
 solved = len(df[df["Crime_Solved"] == "Yes"])
-Mean = (solved/unsolved)*100
+Total = unsolved+solved
+Mean = (solved/Total)*100
 print(Mean)
 Mean = round(Mean,2)
 Weapon = df["Weapon"].value_counts().idxmax()
@@ -136,15 +137,15 @@ def pie_chart(year):
         fig = px.pie(filtered_df,values="Year",names='Victim_Sex')
     return fig
 
-def update_charts2(year):
+def update_charts(year):
     if year == "all":
-        fig = go.Figure()
-        fig.add_trace(go.Histogram(histfunc="count", x=df['Victim_Sex']))
+        fig2 = go.Figure2()
+        fig2.add_trace(go.Histogram(histfunc="count", x=df['Victim_Sex']))
     else:
         filtered_df = df[df.Year == year]
-        fig = go.Figure()
-        fig.add_trace(go.Histogram(histfunc="count", x=filtered_df['Victim_Sex']))
-    return fig
+        fig2 = go.Figure2()
+        fig2.add_trace(go.Histogram(histfunc="count", x=filtered_df['Victim_Sex']))
+    return fig2
 
 #def crime_solved(year):
     #if year == 'all':
