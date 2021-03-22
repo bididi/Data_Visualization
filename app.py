@@ -130,26 +130,22 @@ app.layout = html.Div(
 
 @app.callback(
     Output("fig", "figure"),
+    Output("fig2", "figure"),
     Input("year-filter", "value"),
 
 )
 def pie_chart(year):
     if year == "all":
         fig = px.pie(df,values="Year",names='Victim_Sex')
+        fig2 = go.Figure()
+        fig2.add_trace(go.Histogram(histfunc="count", x=df['Month']))
     else:
         filtered_df = df[df.Year == year]
         fig = px.pie(filtered_df,values="Year",names='Victim_Sex')
-    return fig
+        fig2 = go.Figure()
+        fig2.add_trace(go.Histogram(histfunc="count", x=filtered_df['Month']))
+    return fig,fig2
 
-def update_charts(year):
-    if year == "all":
-        fig2 = go.Figure2()
-        fig2.add_trace(go.Histogram(histfunc="count", x=df['Victim_Sex']))
-    else:
-        filtered_df = df[df.Year == year]
-        fig2 = go.Figure2()
-        fig2.add_trace(go.Histogram(histfunc="count", x=filtered_df['Victim_Sex']))
-    return fig2
 
 #def crime_solved(year):
     #if year == 'all':
