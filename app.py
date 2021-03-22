@@ -9,7 +9,9 @@ import matplotlib.pyplot as plt
 import plotly.express as px
 
 # Load data
+
 df = pd.read_csv('database.csv')
+df=df[:100000]
 df.dropna(inplace=True)
 # print(pd.isnull(df).sum())
 # df.index = pd.to_datetime(df['Date'])
@@ -24,6 +26,59 @@ Mean = round(Mean,2)
 Weapon = df["Weapon"].value_counts().idxmax()
 #print(Weapon)
 Mean =str(Mean)
+
+df[["State"]] = df[["State"]].replace({'Alabama': 'AL',
+    'Alaska': 'AK',
+    'Arizona': 'AZ',
+    'Arkansas': 'AR',
+    'California': 'CA',
+    'Colorado': 'CO',
+    'Connecticut': 'CT',
+    'Delaware': 'DE',
+    'District of Columbia': 'DC',
+    'Florida': 'FL',
+    'Georgia': 'GA',
+    'Hawaii': 'HI',
+    'Idaho': 'ID',
+    'Illinois': 'IL',
+    'Indiana': 'IN',
+    'Iowa': 'IA',
+    'Kansas': 'KS',
+    'Kentucky': 'KY',
+    'Louisiana': 'LA',
+    'Maine': 'ME',
+    'Maryland': 'MD',
+    'Massachusetts': 'MA',
+    'Michigan': 'MI',
+    'Minnesota': 'MN',
+    'Mississippi': 'MS',
+    'Missouri': 'MO',
+    'Montana': 'MT',
+    'Nebraska': 'NE',
+    'Nevada': 'NV',
+    'New Hampshire': 'NH',
+    'New Jersey': 'NJ',
+    'New Mexico': 'NM',
+    'New York': 'NY',
+    'North Carolina': 'NC',
+    'North Dakota': 'ND',
+    'Ohio': 'OH',
+    'Oklahoma': 'OK',
+    'Oregon': 'OR',
+    'Pennsylvania': 'PA',
+    'Rhodes Island': 'RI',
+    'South Carolina': 'SC',
+    'South Dakota': 'SD',
+    'Tennessee': 'TN',
+    'Texas': 'TX',
+    'Utah': 'UT',
+    'Vermont': 'VT',
+    'Virginia': 'VA',
+    'Washington': 'WA',
+    'West Virginia': 'WV',
+    'Wisconsin': 'WI',
+    'Wyoming': 'WY'})
+
 external_stylesheets = [
     {
         "href": "https://fonts.googleapis.com/css2?"
@@ -141,12 +196,20 @@ app.layout = html.Div(
             ],
             className="Year_container"
         ),
-        """html.Div(
-            children=mapp
-            classname="map_container"
+        html.Div(
+            children=[
+                html.Div(
+                    children=dcc.Graph(
+                        id="map", config={"displayModeBar": False},
+                    ),
+
+                )
+
+            ],
+            className="map_container"
         ),
         
-        """
+
     ],
     className="container"
 )
@@ -158,6 +221,7 @@ app.layout = html.Div(
     Output("weapon", "children"),
     Output("crime", "children"),
     Output("Solved", "children"),
+    Output("map", "figure"),
     Input("year-filter", "value"),
 
 )
@@ -175,6 +239,16 @@ def pie_chart(year):
         mean = round(mean, 2)
         Solved = str(mean)
 
+        map = px.choropleth(
+            data_frame=df,
+            locationmode='USA-states',
+            locations=df["State"],
+            scope="usa",
+            color='Incident',
+            hover_data=['State', 'Incident'],
+            labels={'Pct of Colonies Impacted': '% of Bee Colonies'},
+    )
+
     else:
         filtered_df = df[df.Year == year]
         weapon = filtered_df["Weapon"].value_counts().idxmax()
@@ -189,7 +263,17 @@ def pie_chart(year):
         mean = round(mean, 2)
         Solved = str(mean)
         Solved = Solved
-    return fig, fig2, weapon, crime, Solved
+
+        map = px.choropleth(
+            data_frame=filtered_df,
+            locationmode='USA-states',
+            locations=filtered_df["State"],
+            scope="usa",
+            color='Nombre de crimes',
+            hover_data=['State', 'Incident'],
+            labels={'Nb crimes': '% of Bee Colonies'},
+        )
+    return fig, fig2, weapon, crime, Solved, map
 
 if __name__ == "__main__":
     app.run_server(debug=True)
