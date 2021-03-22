@@ -87,7 +87,27 @@ app.layout = html.Div(
 
                         ),
                         html.P(
+                           children='most popular weapon'
+
+                        ),
+                        html.P(
                            id="weapon"
+
+                        ),
+                        html.P(
+                           children='Number of crimes'
+
+                        ),
+                        html.P(
+                           id="crime"
+
+                        ),
+                        html.P(
+                           children='Pourcentage of solved crimes'
+
+                        ),
+                        html.P(
+                           id="Solved"
 
                         ),
                     ],
@@ -136,6 +156,8 @@ app.layout = html.Div(
     Output("fig", "figure"),
     Output("fig2", "figure"),
     Output("weapon", "children"),
+    Output("crime", "children"),
+    Output("Solved", "children"),
     Input("year-filter", "value"),
 
 )
@@ -145,13 +167,29 @@ def pie_chart(year):
         fig2 = go.Figure()
         fig2.add_trace(go.Histogram(histfunc="count", x=df['Month']))
         weapon = df["Weapon"].value_counts().idxmax()
+        crime =df['Record_ID'].count()
+        Unsolved = len(df[df["Crime_Solved"] != "Yes"])
+        solve = len(df[df["Crime_Solved"] == "Yes"])
+        total = Unsolved + solve
+        mean = (solve / total) * 100
+        mean = round(mean, 2)
+        Solved = str(mean)
+
     else:
         filtered_df = df[df.Year == year]
         weapon = filtered_df["Weapon"].value_counts().idxmax()
+        crime = filtered_df['Record_ID'].count()
         fig = px.pie(filtered_df, values="Year", names='Victim_Sex')
         fig2 = go.Figure()
         fig2.add_trace(go.Histogram(histfunc="count", x=filtered_df['Month']))
-    return fig, fig2, weapon
+        Unsolved = len(filtered_df[filtered_df["Crime_Solved"] != "Yes"])
+        solve = len(filtered_df[filtered_df["Crime_Solved"] == "Yes"])
+        total = Unsolved + solve
+        mean = (solve / total) * 100
+        mean = round(mean, 2)
+        Solved = str(mean)
+        Solved = Solved
+    return fig, fig2, weapon, crime, Solved
 
 if __name__ == "__main__":
     app.run_server(debug=True)
