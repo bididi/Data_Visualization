@@ -80,8 +80,7 @@ df[["State"]] = df[["State"]].replace({'Alabama': 'AL',
     'Wyoming': 'WY'})
 
 new_df =df.assign(Crime=1)
-new_df = new_df.groupby(by=["State"]).sum()
-new_df.reset_index(level=0, inplace=True)
+
 
 external_stylesheets = [
     {
@@ -242,19 +241,27 @@ def pie_chart(year):
         mean = (solve / total) * 100
         mean = round(mean, 2)
         Solved = str(mean)
+        print(1)
+        new_df1 = new_df.groupby(by=["State"]).sum()
+        new_df1.reset_index(level=0, inplace=True)
+        print(new_df1)
 
         map = px.choropleth(
-            data_frame=new_df,
+            data_frame=new_df1,
             locationmode='USA-states',
-            locations=new_df["State"],
+            locations=new_df1["State"],
             scope="usa",
             color='Crime',
             hover_data=['State', 'Crime'],
             labels={'Pct of Colonies Impacted': '% of Bee Colonies'},
-    )
+        )
 
     else:
+
         filtered_df = df[df.Year == year]
+        filtered_df2 = new_df[new_df.Year == year]
+        new_df2 = filtered_df2.groupby(by=["State"]).sum()
+        new_df2.reset_index(level=0, inplace=True)
         weapon = filtered_df["Weapon"].value_counts().idxmax()
         crime = filtered_df['Record_ID'].count()
         fig = px.pie(filtered_df, values="Year", names='Victim_Sex')
@@ -269,14 +276,15 @@ def pie_chart(year):
         Solved = Solved
 
         map = px.choropleth(
-            data_frame=new_df,
+            data_frame=new_df2,
             locationmode='USA-states',
-            locations=new_df["State"],
+            locations=new_df2["State"],
             scope="usa",
-            color='Nombre de crimes',
-            hover_data=['State', 'Incident'],
+            color='Crime',
+            hover_data=['State', 'Crime'],
             labels={'Nb crimes': '% of Bee Colonies'},
         )
+
     return fig, fig2, weapon, crime, Solved, map
 
 if __name__ == "__main__":
