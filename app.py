@@ -11,7 +11,7 @@ import plotly.express as px
 # Load data
 
 df = pd.read_csv('database.csv')
-df=df[:100000]
+#df=df[:100000]
 df.dropna(inplace=True)
 # print(pd.isnull(df).sum())
 # df.index = pd.to_datetime(df['Date'])
@@ -78,6 +78,10 @@ df[["State"]] = df[["State"]].replace({'Alabama': 'AL',
     'West Virginia': 'WV',
     'Wisconsin': 'WI',
     'Wyoming': 'WY'})
+
+new_df =df.assign(Crime=1)
+new_df = new_df.groupby(by=["State"]).sum()
+new_df.reset_index(level=0, inplace=True)
 
 external_stylesheets = [
     {
@@ -240,12 +244,12 @@ def pie_chart(year):
         Solved = str(mean)
 
         map = px.choropleth(
-            data_frame=df,
+            data_frame=new_df,
             locationmode='USA-states',
-            locations=df["State"],
+            locations=new_df["State"],
             scope="usa",
-            color='Incident',
-            hover_data=['State', 'Incident'],
+            color='Crime',
+            hover_data=['State', 'Crime'],
             labels={'Pct of Colonies Impacted': '% of Bee Colonies'},
     )
 
@@ -265,9 +269,9 @@ def pie_chart(year):
         Solved = Solved
 
         map = px.choropleth(
-            data_frame=filtered_df,
+            data_frame=new_df,
             locationmode='USA-states',
-            locations=filtered_df["State"],
+            locations=new_df["State"],
             scope="usa",
             color='Nombre de crimes',
             hover_data=['State', 'Incident'],
