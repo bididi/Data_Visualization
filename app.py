@@ -14,14 +14,14 @@ df.dropna(inplace=True)
 # print(pd.isnull(df).sum())
 # df.index = pd.to_datetime(df['Date'])
 nbr_crime = df['Record_ID'].count()
-print(nbr_crime)
+#print(nbr_crime)
 unsolved = len(df[df["Crime_Solved"] != "Yes"])
 solved = len(df[df["Crime_Solved"] == "Yes"])
 Mean = (solved/unsolved)*100
 print(Mean)
 Mean = round(Mean,2)
 Weapon = df["Weapon"].value_counts().idxmax()
-print(Weapon)
+#print(Weapon)
 Mean =str(Mean)
 external_stylesheets = [
     {
@@ -83,9 +83,10 @@ app.layout = html.Div(
                             value='all',
                             clearable=False,
                             placeholder="Select a year",
-                            className="dropdown",
+
                         ),
-                    ]
+                    ],
+                    className="dropdown"
                 ),
                 html.Div(
                     children=[
@@ -93,10 +94,11 @@ app.layout = html.Div(
                             children=dcc.Graph(
                                 id="fig", config={"displayModeBar": False},
                             ),
-                            className="card1",
+
                         )
 
                     ],
+                    className="card1"
                 ),
                 html.Div(
                     children=[
@@ -104,10 +106,11 @@ app.layout = html.Div(
                             children=dcc.Graph(
                                 id="fig2", config={"displayModeBar": False},
                             ),
-                            className="card2",
+
                         )
 
                     ],
+                    className="card2"
                 ),
 
             ],
@@ -119,7 +122,8 @@ app.layout = html.Div(
         ),
         
         """
-    ]
+    ],
+    className="container"
 )
 
 

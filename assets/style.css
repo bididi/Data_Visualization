@@ -1,46 +1,57 @@
+*{
+    padding:0;
+    margin:0;
+    box-sizing: border-box;
+}
+.container{
+    background-color: #D3CFCF;
+}
 .header{
+    margin-top: 0;
+    position: relative;
+    width: 100%;
+    height: 15%;
     background-color: black;
     color: whitesmoke;
     text-align: center;
 }
 .global_container{
+    position: relative;
     display: flex;
     flex-direction: row;
     justify-content: space-around;
 }
 .data1{
+    background-color: white;
     flex-grow: 1;
-    width: auto;
-    height: auto;
     border-width:2px;
     border-style:solid;
     border-color:black;
     border-radius: 15px;
-    padding: 10px;
+    padding: initial;
     text-align: center;
+    margin : 10px;
 
 }
 .data2{
+    background-color: white;
     flex-grow: 1;
-    width: auto;
-    height: auto;
     border-width:2px;
     border-style:solid;
     border-color:black;
     border-radius: 15px;
     text-align: center;
-    padding: 10px;
+    margin : 10px;
 }
 .data3{
-        flex-grow: 1;
-    width: auto;
-    height: auto;
+    background-color: white;
+    flex-grow: 1;
     border-width:2px;
     border-style:solid;
     border-color:black;
     border-radius: 15px;
     text-align: center;
-    padding: 10px;
+    margin : 10px;
 }
 
 .Year_container{
@@ -50,31 +61,28 @@
 }
 
 .dropdown{
-        flex-grow: 1;
-    width: auto;
-    height: auto;
+    background-color: white;
+    flex-grow: 1;
     border-width:2px;
     border-style:solid;
     border-color:black;
     border-radius: 15px;
-    padding: 10px;}
+    margin: 10px;}
 
 .card2{
-        flex-grow: 2;
-    width: auto;
-    height: auto;
+    background-color: white;
+    flex-grow: 2;
     border-width:2px;
     border-style:solid;
     border-color:black;
     border-radius: 15px;
-    padding: 10px;}
+    margin: 10px;}
 
 .card1{
-        flex-grow: 2;
-    width: auto;
-    height: auto;
-    border-width:2px;
-    border-style:solid;
+    background-color: white;
+    flex-grow: 2;
+    border-width:1px;
     border-color:black;
     border-radius: 15px;
-    padding: 10px;}
+    border-style: ridge;
+    margin: 10px;}
