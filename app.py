@@ -86,6 +86,10 @@ app.layout = html.Div(
                             placeholder="Select a year",
 
                         ),
+                        html.P(
+                           id="weapon"
+
+                        ),
                     ],
                     className="dropdown"
                 ),
@@ -131,31 +135,23 @@ app.layout = html.Div(
 @app.callback(
     Output("fig", "figure"),
     Output("fig2", "figure"),
+    Output("weapon", "children"),
     Input("year-filter", "value"),
 
 )
 def pie_chart(year):
     if year == "all":
-        fig = px.pie(df,values="Year",names='Victim_Sex')
+        fig = px.pie(df, values="Year", names='Victim_Sex')
         fig2 = go.Figure()
         fig2.add_trace(go.Histogram(histfunc="count", x=df['Month']))
+        weapon = df["Weapon"].value_counts().idxmax()
     else:
         filtered_df = df[df.Year == year]
-        fig = px.pie(filtered_df,values="Year",names='Victim_Sex')
+        weapon = filtered_df["Weapon"].value_counts().idxmax()
+        fig = px.pie(filtered_df, values="Year", names='Victim_Sex')
         fig2 = go.Figure()
         fig2.add_trace(go.Histogram(histfunc="count", x=filtered_df['Month']))
-    return fig,fig2
-
-
-#def crime_solved(year):
-    #if year == 'all':
-
-        #fig2 = go.Figure()
-        #unsolved['Year'].value_counts().sort_index(ascending=True).plot(kind='line', label='Unsolved')
-        #solved['Year'].value_counts().sort_index(ascending=True).plot(kind='line', label='Solved')
-        #plt.legend()
-        #plt.title('Solved/Unsolved crimes')
-    #return plt
+    return fig, fig2, weapon
 
 if __name__ == "__main__":
     app.run_server(debug=True)
