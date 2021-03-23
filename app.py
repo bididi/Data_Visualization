@@ -200,54 +200,41 @@ app.layout = html.Div(
                 html.Div(
                     children=[
                         html.Div(
-                            children=dcc.Graph(
-                                id="fig", config={"displayModeBar": False},
-                            ),
+                            children=[
+                                html.Div(
+                                    children=dcc.Graph(
+                                        id="fig", config={"displayModeBar": False},
+                                    ),
+                                    className="card1",
+                                ),
+                                html.Div(
+                                    children=dcc.Graph(
+                                        id="fig2", config={"displayModeBar": False}
+                                    ),
+                                    className="card2",
+                                ),
 
-                        )
-
-                    ],
-                    className="card1"
-                ),
-                html.Div(
-                    children=[
+                            ],
+                            className="graphs",
+                        ),
                         html.Div(
-                            children=
-
-                                dcc.Graph(
-                                id="fig2", config={"displayModeBar": False}),
-
-
-
-                        )
+                            children=dcc.Graph(
+                                id="map", config={"displayModeBar": False},
+                            ),
+                            className="map_container"
+                        ),
 
                     ],
-                    className="card2"
+                    className="droite"
+
                 ),
+
 
             ],
-            className="Year_container"
-        ),
-        html.Div(
-            children=[
-                html.Div(
-                    className="vide"
-                ),
-                html.Div(
-                    children=dcc.Graph(
-                        id="map", config={"displayModeBar": False},
-                        className="mapp",
-                    ),
+            className="bbody"
 
-                ),
-                html.Div(
-                    className="vide"
-                )
-
-            ],
-            className="map_container"
         ),
-        
+
 
     ],
     className="container"
