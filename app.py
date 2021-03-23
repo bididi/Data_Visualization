@@ -174,7 +174,7 @@ app.layout = html.Div(
 
                         ),
                         html.H3(
-                            children='Relationship betwean perpeator and victim',
+                            children='Average age of victims',
                             className="texte"
 
                         ),
