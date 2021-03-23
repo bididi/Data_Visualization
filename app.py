@@ -266,10 +266,11 @@ app.layout = html.Div(
 
 )
 
-
+#Method that allows us to display graphs with statistics year by year or with all the years.
+#It returns all the graphs and variables of our dashboard
 def pie_chart(year):
     if year == "all":
-        print(1)
+        # pie parameters
         fig = px.pie(df, values="Year", names='Victim_Sex')
         fig.update_layout(
             title="<b>Genders of the victims</b>",
@@ -279,7 +280,7 @@ def pie_chart(year):
                 color="black"
             )
                )
-
+        # histogram parameters
         fig2 = go.Figure()
         fig2.add_trace(go.Histogram(histfunc="count", x=df['Month']))
         fig2.update_layout(
@@ -290,21 +291,24 @@ def pie_chart(year):
                 color="black"
             )
         )
+        # return the most usefull arms
         weapon = df["Weapon"].value_counts().idxmax()
+        # returns the average age of victims
         relation = df["Victim_Age"].mean()
         relation = round(relation, 2)
+
         crime = df['Record_ID'].count()
+        #Allows to make the percentage of crime solved according to the year
         Unsolved = len(df[df["Crime_Solved"] != "Yes"])
         solve = len(df[df["Crime_Solved"] == "Yes"])
         total = Unsolved + solve
         mean = (solve / total) * 100
         mean = round(mean, 2)
         Solved = str(mean)
-        print(2)
+
         new_df1 = new_df.groupby(by=["State"]).sum()
         new_df1.reset_index(level=0, inplace=True)
-        print(new_df1)
-
+        # map parameters
         map = px.choropleth(
             data_frame=new_df1,
             locationmode='USA-states',
@@ -324,15 +328,20 @@ def pie_chart(year):
             )
         )
     else:
-
+        # new dataframe with years by years
         filtered_df = df[df.Year == year]
         filtered_df2 = new_df[new_df.Year == year]
+
         new_df2 = filtered_df2.groupby(by=["State"]).sum()
         new_df2.reset_index(level=0, inplace=True)
+        # returns the most used weapon
         weapon = filtered_df["Weapon"].value_counts().idxmax()
+        #returns the average victim
         relation = filtered_df["Victim_Age"].mean()
         relation = round(relation, 2)
+
         crime = filtered_df['Record_ID'].count()
+        #pie parameters
         fig = px.pie(filtered_df, values="Year", names='Victim_Sex')
         fig.update_layout(
             title="<b>Genders of the victims</b>",
@@ -343,6 +352,7 @@ def pie_chart(year):
             )
         )
         fig2 = go.Figure()
+        # histogram parameters
         fig2.add_trace(go.Histogram(histfunc="count", x=filtered_df['Month']))
         fig2.update_layout(
             title="<b>Histogram of crimes by month</b>",
@@ -358,7 +368,7 @@ def pie_chart(year):
         mean = round(mean, 2)
         Solved = str(mean)
         Solved = Solved
-
+        # map parameters
         map = px.choropleth(
             data_frame=new_df2,
             locationmode='USA-states',
