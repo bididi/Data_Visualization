@@ -173,6 +173,16 @@ app.layout = html.Div(
                             className="chiffre"
 
                         ),
+                        html.H3(
+                            children='Relationship betwean perpeator and victim',
+                            className="texte"
+
+                        ),
+                        html.P(
+                            id="relation",
+                            className="chiffre"
+
+                        ),
                     ],
                     className="dropdown"
                 ),
@@ -239,6 +249,7 @@ app.layout = html.Div(
     Output("weapon", "children"),
     Output("crime", "children"),
     Output("Solved", "children"),
+    Output("relation", "children"),
     Output("map", "figure"),
     Input("year-filter", "value"),
 
@@ -267,6 +278,8 @@ def pie_chart(year):
             )
         )
         weapon = df["Weapon"].value_counts().idxmax()
+        relation = df["Victim_Age"].mean()
+        relation = round(relation, 2)
         crime = df['Record_ID'].count()
         Unsolved = len(df[df["Crime_Solved"] != "Yes"])
         solve = len(df[df["Crime_Solved"] == "Yes"])
@@ -298,6 +311,8 @@ def pie_chart(year):
         new_df2 = filtered_df2.groupby(by=["State"]).sum()
         new_df2.reset_index(level=0, inplace=True)
         weapon = filtered_df["Weapon"].value_counts().idxmax()
+        relation = filtered_df["Victim_Age"].mean()
+        relation = round(relation, 2)
         crime = filtered_df['Record_ID'].count()
         fig = px.pie(filtered_df, values="Year", names='Victim_Sex')
         fig.update_layout(
@@ -338,7 +353,7 @@ def pie_chart(year):
 
         )
 
-    return fig, fig2, weapon, crime, Solved, map
+    return fig, fig2, weapon, crime, Solved, relation,map
 
 
 if __name__ == "__main__":
