@@ -303,7 +303,13 @@ def pie_chart(year):
             hover_data=['State', 'Crime'],
 
         )
-
+        map.update_layout(
+            title_font_family="sans serif",
+            title_font_size=25,
+            font=dict(
+                color="black"
+            )
+        )
     else:
 
         filtered_df = df[df.Year == year]
