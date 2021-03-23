@@ -226,6 +226,7 @@ app.layout = html.Div(
             ],
             className="map_container"
         ),
+        
 
     ],
     className="container"
@@ -247,17 +248,24 @@ def pie_chart(year):
         print(1)
         fig = px.pie(df, values="Year", names='Victim_Sex')
         fig.update_layout(
-            title = "Genders of the victims",
+            title="<b>Genders of the victims</b>",
             title_font_family="sans serif",
+            title_font_size=25,
             font=dict(
-                family="Courier New, monospace",
-                size=18,
                 color="black"
             )
                )
 
         fig2 = go.Figure()
         fig2.add_trace(go.Histogram(histfunc="count", x=df['Month']))
+        fig2.update_layout(
+            title="<b>Histogram of crimes by month</b>",
+            title_font_family="sans serif",
+            title_font_size=25,
+            font=dict(
+                color="black"
+            )
+        )
         weapon = df["Weapon"].value_counts().idxmax()
         crime = df['Record_ID'].count()
         Unsolved = len(df[df["Crime_Solved"] != "Yes"])
@@ -278,7 +286,7 @@ def pie_chart(year):
             scope="usa",
             color_continuous_scale="Reds",
             color='Crime',
-            title='Distribution of crimes in the USA',
+            title='<b>Distribution of crimes by state, in the USA</b>',
             hover_data=['State', 'Crime'],
 
         )
@@ -292,8 +300,23 @@ def pie_chart(year):
         weapon = filtered_df["Weapon"].value_counts().idxmax()
         crime = filtered_df['Record_ID'].count()
         fig = px.pie(filtered_df, values="Year", names='Victim_Sex')
+        fig.update_layout(
+            title="<b>Genders of the victims</b>",
+            title_font_family="sans serif",
+            title_font_size=25,
+            font=dict(
+                color="black"
+            )
+        )
         fig2 = go.Figure()
         fig2.add_trace(go.Histogram(histfunc="count", x=filtered_df['Month']))
+        fig2.update_layout(
+            title="<b>Histogram of crimes by month</b>",
+            title_font_family="sans serif",
+            title_font_size=25,
+            font=dict(
+                color="black"
+            ))
         Unsolved = len(filtered_df[filtered_df["Crime_Solved"] != "Yes"])
         solve = len(filtered_df[filtered_df["Crime_Solved"] == "Yes"])
         total = Unsolved + solve
@@ -311,7 +334,8 @@ def pie_chart(year):
             color='Crime',
             hover_data=['State', 'Crime'],
             range_color=(0, 3000),
-            title="Distribution of crimes by state, in the USA",
+            title="<b>Distribution of crimes by state, in the USA</b>",
+
         )
 
     return fig, fig2, weapon, crime, Solved, map
