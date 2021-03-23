@@ -1,3 +1,5 @@
+# Importations du projet
+
 import dash
 import dash_html_components as html
 import dash_core_components as dcc
@@ -8,25 +10,27 @@ import plotly.graph_objects as go
 import matplotlib.pyplot as plt
 import plotly.express as px
 
-# Load data
-
+# Load data on our CSV
 df = pd.read_csv('database.csv')
-# df=df[:100000]
+# We replace the null values
 df.dropna(inplace=True)
+
 # print(pd.isnull(df).sum())
 # df.index = pd.to_datetime(df['Date'])
+
+#We calculate the percentage of crime solved
 nbr_crime = df['Record_ID'].count()
-# print(nbr_crime)
 unsolved = len(df[df["Crime_Solved"] != "Yes"])
 solved = len(df[df["Crime_Solved"] == "Yes"])
 Total = unsolved + solved
 Mean = (solved / Total) * 100
 print(Mean)
 Mean = round(Mean, 2)
+# We are looking for the most used weapon
 Weapon = df["Weapon"].value_counts().idxmax()
-# print(Weapon)
 Mean = str(Mean)
 
+# To create the map, we need to replace the state names by their abbreviation
 df[["State"]] = df[["State"]].replace({'Alabama': 'AL',
                                        'Alaska': 'AK',
                                        'Arizona': 'AZ',
@@ -78,7 +82,7 @@ df[["State"]] = df[["State"]].replace({'Alabama': 'AL',
                                        'West Virginia': 'WV',
                                        'Wisconsin': 'WI',
                                        'Wyoming': 'WY'})
-
+# We create a column of 1 to count the number of crimes
 new_df = df.assign(Crime=1)
 
 external_stylesheets = [
@@ -88,24 +92,30 @@ external_stylesheets = [
         "rel": "stylesheet",
     },
 ]
+#Launching the dashboard
+
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 app.title = "Crime analize"
 OptionsListe = [{"label": year, "value": year} for year in np.sort(df.Year.unique())]
 OptionsListe.insert(0, {"label": "All", "value": 'all'}),
+#Creation of the different boxes of our dashboard
 app.layout = html.Div(
     children=[
         html.Div(
             children=[
                 html.H1(
+                    #title
                     children="Crimes Analytics", className="header-title"
                 ),
                 html.P(
+                    #Sub-title
                     children="Analyse crimes by year",
                     className="header-description",
                 ),
             ],
             className="header",
         ),
+        # The div with 3 global variable
         html.Div(
             children=[
                 html.Div(
@@ -133,6 +143,7 @@ app.layout = html.Div(
         html.Div(
             children=[
                 html.Div(
+                    # Our dropdown where we choose year
                     children=[
                         html.H2(children="Choose a year", className="menu-title"),
                         dcc.Dropdown(
@@ -254,6 +265,8 @@ app.layout = html.Div(
     Input("year-filter", "value"),
 
 )
+
+
 def pie_chart(year):
     if year == "all":
         print(1)
