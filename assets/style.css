@@ -8,6 +8,7 @@
     height: 100%;
     width: 100%;
 }
+/* --------------------- Header ------------------------------------ */
 .header{
     margin-top: 0;
     position: relative;
@@ -17,59 +18,91 @@
     color: Black;
     text-align: center;
 }
+/* --------------------- Variables globales ------------------------------------ */
 .global_container{
     position: relative;
     display: flex;
     flex-direction: row;
     justify-content: space-around;
 }
-.data1{
+
+.header-title{
+    padding-top: 15PX;
+    padding-bottom: 5px;
+}
+
+.data{
     background-color: white;
     flex-grow: 1;
     border-radius: 15px;
-    padding: initial;
     text-align: center;
-    margin : 10px;
+    margin: 10px 50px;
+    box-shadow: 8px 8px 12px #aaa;
+    padding-bottom: 15px;
 
 }
-.data2{
-    background-color: white;
-    flex-grow: 1;
-    border-radius: 15px;
-    text-align: center;
-    margin : 10px;
-}
-.data3{
-    background-color: white;
-    flex-grow: 1;
-    border-radius: 15px;
-    text-align: center;
-    margin : 10px;
-}
+
+
+/* --------------------- deuxième ligne ------------------------------------ */
 
 .Year_container{
     display: flex;
-    display: flex;
     flex-direction: row;
     justify-content: space-around;
+
+}
+.menu-title{
+    font-size: 25px;
+    padding-top: 20px;
+    padding-bottom: 10px;
 }
 
 .dropdown{
     background-color: white;
     flex-grow: 1;
+    text-align: center;
     border-radius: 15px;
-    margin: 10px;}
+    margin: 10px;
+    box-shadow: 8px 8px 12px #aaa;
+}
+
+.texte{
+    padding-top: 20px;
+    padding-bottom: 10px;
+}
+.chiffre{
+    font-size: 20px;
+}
 
 .card2{
     background-color: white;
     flex-grow: 1;
+    box-shadow: 8px 8px 12px #aaa;
 
-    border-radius: 15px;
-    margin: 10px;}
+    border-radius: 15px 15px 15px 15px;
+    margin: 10px;
+    text-align: center;
+}
 
 .card1{
     background-color: white;
     flex-grow: 1;
-    border-radius: 15px;
+    border-radius: 15px 15px 15px 15px;
+    box-shadow: 8px 8px 12px #aaa;
+    margin: 10px;
+    text-align: center;
+}
 
-    margin: 10px;}
+/* --------------------- Map ------------------------------------ */
+.map_container{
+     display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+mapp{
+    flex-grow:3;
+    border-radius: 15px;
+}
+.vide{
+    flex-grow: 1;
+}
