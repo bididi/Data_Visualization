@@ -267,6 +267,8 @@ app.layout = html.Div(
     Output("Solved", "children"),
     Output("relation", "children"),
     Output("map", "figure"),
+    Output("fig3", "figure"),
+    Output("fig4", "figure"),
     Input("year-filter", "value"),
 
 )
@@ -313,6 +315,9 @@ def pie_chart(year):
 
         new_df1 = new_df.groupby(by=["State"]).sum()
         new_df1.reset_index(level=0, inplace=True)
+        new_df2 = new_df.groupby(by=["Victim_Race"]).sum()
+        new_df2.reset_index(level=0, inplace=True)
+        print(new_df2)
         # map parameters
         map = px.choropleth(
             data_frame=new_df1,
@@ -332,13 +337,28 @@ def pie_chart(year):
                 color="black"
             )
         )
+
+        fig3 = px.bar(new_df2, x='Victim_Race',y="Crime")
+        fig3.update_layout(barmode='stack', xaxis={'categoryorder': 'total descending'})
+        fig4 = px.density_heatmap(df, x="Perpetrator Age", y='Victim_Sex',marginal_x='histogram',
+                                  marginal_y='histogram', animation_frame='Year')
+
+
+
     else:
+
+
+
         # new dataframe with years by years
         filtered_df = df[df.Year == year]
         filtered_df2 = new_df[new_df.Year == year]
 
         new_df2 = filtered_df2.groupby(by=["State"]).sum()
         new_df2.reset_index(level=0, inplace=True)
+
+        new_df3 = filtered_df2.groupby(by=["Victim_Race"]).sum()
+        new_df3.reset_index(level=0, inplace=True)
+
         # returns the most used weapon
         weapon = filtered_df["Weapon"].value_counts().idxmax()
         #returns the average victim
@@ -386,8 +406,14 @@ def pie_chart(year):
             title="<b>Distribution of crimes by state, in the USA</b>",
 
         )
+        fig3 = px.bar(new_df3, x='Victim_Race',y="Crime")
+        fig3.update_layout(barmode='stack', xaxis={'categoryorder': 'total descending'})
 
-    return fig, fig2, weapon, crime, Solved, relation,map
+
+
+
+
+    return fig, fig2, weapon, crime, Solved, relation, map, fig3, fig4
 
 
 if __name__ == "__main__":
