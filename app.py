@@ -24,7 +24,7 @@ unsolved = len(df[df["Crime_Solved"] != "Yes"])
 solved = len(df[df["Crime_Solved"] == "Yes"])
 Total = unsolved + solved
 Mean = (solved / Total) * 100
-print(Mean)
+#print(Mean)
 Mean = round(Mean, 2)
 # We are looking for the most used weapon
 Weapon = df["Weapon"].value_counts().idxmax()
@@ -222,6 +222,24 @@ app.layout = html.Div(
                                 id="map", config={"displayModeBar": False},
                             ),
                             className="map_container"
+                        ),
+                        html.Div(
+                            children=[
+                                html.Div(
+                                    children=dcc.Graph(
+                                        id="fig3", config={"displayModeBar": False},
+                                    ),
+                                    className="card1",
+                                ),
+                                html.Div(
+                                    children=dcc.Graph(
+                                        id="fig4", config={"displayModeBar": False}
+                                    ),
+                                    className="card2",
+                                ),
+
+                            ],
+                            className="graphs",
                         ),
 
                     ],
